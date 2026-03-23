@@ -35,13 +35,13 @@ public class RuleManager : MonoBehaviour
         {
             if (rule.Subject == subject && rule.Action == action && rule.Target == target)
             {
-                 if (rule.Modifier == ModifierType.Cannot) return false; 
+                if (rule.Modifier == ModifierType.Cannot) return false;
             }
         }
         return true; // Mặc định là Can nếu không có luật cấm
     }
 
-   // UI gọi hàm này để đổi Modifier (Can <-> Cannot) [cite: 22, 105]
+    // UI gọi hàm này để đổi Modifier (Can <-> Cannot) [cite: 22, 105]
     public void ToggleRuleModifier(int ruleIndex)
     {
         if (ruleIndex >= 0 && ruleIndex < activeRules.Count)
@@ -54,3 +54,4 @@ public class RuleManager : MonoBehaviour
         }
     }
 }
+    //commit again
