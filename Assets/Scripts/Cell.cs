@@ -21,13 +21,13 @@ public class Cell : MonoBehaviour
     {
         gameObject.SetActive(true);
         spriteReneder.color = Color.white;
-        spriteReneder.sprite = hightlight;
+        spriteReneder.sprite = normal;
     }    
     public void Hightlight()
     {
         gameObject.SetActive(true);
         spriteReneder.color = Color.white;
-        spriteReneder.sprite = normal;
+        spriteReneder.sprite = hightlight;
     }
     public void Hover()
     {
@@ -35,7 +35,7 @@ public class Cell : MonoBehaviour
         spriteReneder.color = new(1.0f, 1.0f, 1.0f, 0.5f);
         spriteReneder.sprite = normal;
     }
-    public void Hilde ()
+    public void Hide ()
     {
         gameObject.SetActive(false);
     }    
