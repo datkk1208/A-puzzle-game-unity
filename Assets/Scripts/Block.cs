@@ -65,7 +65,7 @@ public class Block : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("OnMouseDown");
-        inputPoint = mainCamera.ScreenToViewportPoint(Input.mousePosition);
+        inputPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         transform.localPosition = position + inputOffset;
         transform.localScale = Vector3.one;
         
