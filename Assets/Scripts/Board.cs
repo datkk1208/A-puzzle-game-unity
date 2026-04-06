@@ -11,6 +11,9 @@ public class Board : MonoBehaviour
 
     private readonly List<Vector2Int> hoverPoints = new();
 
+    private readonly List<int> fullLineColumns = new();
+
+    private readonly List<int> fullLineRows = new();
     private void Start()
     {
         for (var r = 0; r < Size; ++r)
@@ -100,21 +103,88 @@ public class Board : MonoBehaviour
 
         if (hoverPoints.Count > 0) // Sửa: count thành Count
         {
-            Place();
+            Place(point, polyominoColumns, polyominoRows);
             Hightlight(point, polyominoRows, polyominoColumns);
 
         }
         return false;
     }
-    private void Place()
+    private void Place(Vector2Int point, int polyominoColumns, int polyominoRows)
     {
         foreach (var hoverPoint in hoverPoints)
         {
             data[hoverPoint.y, hoverPoint.x] = 2; // Sửa: Đồng bộ data[y, x]
             cells[hoverPoint.y, hoverPoint.x].Normal();
         }
+
+        ClearFullLines(point, polyominoColumns, polyominoRows);
+
         hoverPoints.Clear();
     } 
+    private void ClearFullLines(Vector2Int point, int polyominoColumns, int polyominoRows)
+
+    {
+        FullLineColumns(point.x, point.x + polyominoColumns);
+        FullLineRows(point.y, point.x + polyominoColumns);
+
+        ClearFullLineColumns();
+        ClearFullLineRows();
+    }    
+    private void FullLineColumns(int fromColumn, int topColumnExclusive)
+    {
+        fullLineColumns.Clear();
+        for(var c = fromColumn; c < topColumnExclusive; ++c)
+        {
+            var isFullLine = true;
+            for (var r = 0; r < Size; ++r)
+            {
+                if (data[r, c] != 2)
+                {
+                    isFullLine = false;
+                    break;
+                }    
+            }
+            if (isFullLine == true)
+            {
+                fullLineColumns.Add(c);
+            }    
+        }    
+    }    
+     private void FullLineRows(int fromRow, int topRowExclusive)
+    {
+        fullLineRows.Clear();
+        for(var r = fromRow; r < topRowExclusive; ++r)
+        {
+            var isFullLine = true;
+            for (var c = 0; c < Size; ++c)
+            {
+                if (data[r, c] != 2)
+                {
+                    isFullLine = false;
+                    break;
+                }    
+            }
+            if (isFullLine == true)
+            {
+                fullLineRows.Add(r);
+            }    
+        }    
+    }
+   private void   ClearFullLineColumns()
+    {
+        foreach(var c in fullLineColumns)
+        {
+            for (var r = 0;r < Size; ++r)
+            {
+                data[r, c] = 0;
+                cells[r,c].Hide();
+            }    
+        }    
+}
+  private void   ClearFullLineRows()
+    {
+
+    }    
 
     private void Hightlight(Vector2Int point, int polyminoColumns, int polymominoRows)
     {
@@ -122,7 +192,6 @@ public class Board : MonoBehaviour
     }
     private void Unhightlight()
     {
-        //abc
-        //abc1
+        
     }    
 }
