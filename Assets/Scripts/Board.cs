@@ -88,4 +88,22 @@ public class Board : MonoBehaviour
         }
         hoverPoints.Clear();
     }
+    public bool Place(Vector2Int point, int polymoinoIndex)
+    {
+        var polyomino = Polyominos.get(polymoinoIndex); // Sửa: Truyền đúng tham số polymoinoIndex
+        var polyominoRows = polyomino.GetLength(0);
+        var polyominoColumns = polyomino.GetLength(1);
+
+        Unhover();
+        HoverPoints(point, polyominoRows, polyominoColumns, polyomino);
+
+        if (hoverPoints.Count > 0) // Sửa: count thành Count
+        {
+            Hover();
+            return true;
+
+        }
+        return false;
+    }
+
 }
