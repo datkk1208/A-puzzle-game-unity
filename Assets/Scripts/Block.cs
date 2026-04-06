@@ -15,7 +15,7 @@ public class Block : MonoBehaviour
     private Vector3 position;
     private Vector3 scale;
     private Vector2 inputPoint;
-    private Vector3 previousMousePosition = Vector3.positiveInfinity;
+    private Vector3 previousMousePosition = Vector3.positiveInfinity; 
     private Vector2Int previousDragPoint;
     private Vector2Int currentDragPoint;
     //cache

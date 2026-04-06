@@ -105,7 +105,7 @@ public class Board : MonoBehaviour
         {
             Place(point, polyominoColumns, polyominoRows);
             Hightlight(point, polyominoRows, polyominoColumns);
-
+            return true;
         }
         return false;
     }
@@ -125,7 +125,7 @@ public class Board : MonoBehaviour
 
     {
         FullLineColumns(point.x, point.x + polyominoColumns);
-        FullLineRows(point.y, point.x + polyominoColumns);
+        FullLineRows(point.y, point.y + polyominoColumns);
 
         ClearFullLineColumns();
         ClearFullLineRows();
