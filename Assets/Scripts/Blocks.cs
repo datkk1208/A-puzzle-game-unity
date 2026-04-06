@@ -27,7 +27,7 @@ public class Blocks : MonoBehaviour
             ++blockCount;
         }
     }
-    private void Remove()
+    public void Remove()
     {
         --blockCount;
         if (blockCount <= 0)
