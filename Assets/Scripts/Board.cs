@@ -183,7 +183,14 @@ public class Board : MonoBehaviour
 }
   private void   ClearFullLineRows()
     {
-
+        foreach (var r in fullLineRows)
+        {
+            for (var c = 0; c < Size; ++c)
+            {
+                data[r, c] = 0; 
+                cells[r, c].Hide();
+            }
+        }
     }    
 
     private void Hightlight(Vector2Int point, int polyminoColumns, int polymominoRows)
