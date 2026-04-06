@@ -528,6 +528,10 @@ PrefabInstance:
       propertyPath: board
       value: 
       objectReference: {fileID: 1555029471}
+    - target: {fileID: 7035471657419015443, guid: 4416bd24cc352c24684effdfa87c609b, type: 3}
+      propertyPath: blocks
+      value: 
+      objectReference: {fileID: 1727854503}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -867,6 +871,10 @@ PrefabInstance:
       propertyPath: board
       value: 
       objectReference: {fileID: 1555029471}
+    - target: {fileID: 7035471657419015443, guid: 4416bd24cc352c24684effdfa87c609b, type: 3}
+      propertyPath: blocks
+      value: 
+      objectReference: {fileID: 1727854503}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -944,6 +952,10 @@ PrefabInstance:
       propertyPath: board
       value: 
       objectReference: {fileID: 1555029471}
+    - target: {fileID: 7035471657419015443, guid: 4416bd24cc352c24684effdfa87c609b, type: 3}
+      propertyPath: blocks
+      value: 
+      objectReference: {fileID: 1727854503}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
