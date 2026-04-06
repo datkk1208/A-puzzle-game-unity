@@ -95,12 +95,13 @@ public class Board : MonoBehaviour
         var polyominoColumns = polyomino.GetLength(1);
 
         Unhover();
+        Unhightlight();
         HoverPoints(point, polyominoRows, polyominoColumns, polyomino);
 
         if (hoverPoints.Count > 0) // Sửa: count thành Count
         {
             Place();
-            return true;
+            Hightlight(point, polyominoRows, polyominoColumns);
 
         }
         return false;
@@ -114,4 +115,12 @@ public class Board : MonoBehaviour
         }
         hoverPoints.Clear();
     }
+    private void Hightlight(Vector2Int point, int polyminoColumns, int polymominoRows)
+    {
+
+    }
+    private void Unhightlight()
+    {
+
+    }    
 }
