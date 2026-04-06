@@ -8,6 +8,7 @@ public class Block : MonoBehaviour
     private readonly Vector3 inputOffset =  new(0.0f,2.0f,0.0f);
     [SerializeField] private Cell cellPrefab;
     [SerializeField] private Board board;
+    [SerializeField] private Blocks blocks;
     private int polyominoIndex;
     private readonly Cell[,] cells = new Cell[size, size];
 
@@ -109,7 +110,8 @@ public class Block : MonoBehaviour
         currentDragPoint = Vector2Int.RoundToInt((Vector2)transform.position - center);
         if(board.Place(currentDragPoint, polyominoIndex) == true)
         {
-
+            gameObject.SetActive(false);
+            blocks.Remove();
         }
 
         transform.localPosition = position ;

@@ -114,10 +114,11 @@ public class Board : MonoBehaviour
             cells[hoverPoint.y, hoverPoint.x].Normal();
         }
         hoverPoints.Clear();
-    }
+    } 
+
     private void Hightlight(Vector2Int point, int polyminoColumns, int polymominoRows)
     {
-
+       
     }
     private void Unhightlight()
     {
