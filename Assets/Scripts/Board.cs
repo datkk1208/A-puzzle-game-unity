@@ -99,11 +99,19 @@ public class Board : MonoBehaviour
 
         if (hoverPoints.Count > 0) // Sửa: count thành Count
         {
-            Hover();
+            Place();
             return true;
 
         }
         return false;
     }
-
+    private void Place()
+    {
+        foreach (var hoverPoint in hoverPoints)
+        {
+            data[hoverPoint.y, hoverPoint.x] = 2; // Sửa: Đồng bộ data[y, x]
+            cells[hoverPoint.y, hoverPoint.x].Normal();
+        }
+        hoverPoints.Clear();
+    }
 }

@@ -105,10 +105,16 @@ public class Block : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        Debug.Log("OnMouseUp");
+        previousMousePosition = Vector3.positiveInfinity;
+        currentDragPoint = Vector2Int.RoundToInt((Vector2)transform.position - center);
+        if(board.Place(currentDragPoint, polyominoIndex) == true)
+        {
+
+        }
+
         transform.localPosition = position ;
         transform.localScale = scale;
         
-        previousMousePosition = Vector3.positiveInfinity;
+      
     }
 }
