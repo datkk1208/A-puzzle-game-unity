@@ -1,9 +1,13 @@
 using System.CodeDom.Compiler;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class Blocks : MonoBehaviour
 {
+    [SerializeField] private Board board;
     [SerializeField] private Block[] blocks;
+
+    private int[] polyominoIndexes;
     private int blockCount = 0;
 
     private void Start()
@@ -15,14 +19,17 @@ public class Blocks : MonoBehaviour
             blocks[i].transform.localScale = new(cellSize,cellSize,cellSize);
             blocks[i].Initialize();
         }
+
+        polyominoIndexes = new int[blocks.Length];
         Generate();
     }
     private void Generate()
     {
         for (var i = 0; i < blocks.Length; ++i)
         {
+            polyominoIndexes[i] = Random.Range(0, Polyominos.length);
             blocks[i].gameObject.SetActive(true);
-            blocks[i].Show(Random.Range(0, Polyominos.length));
+            blocks[i].Show(polyominoIndexes[i]);
 
             ++blockCount;
         }
@@ -34,6 +41,21 @@ public class Blocks : MonoBehaviour
         {
             blockCount = 0;
             Generate();
+
+        }
+
+        var lose = true;
+
+        for (var i = 0; i < blocks.Length; ++i)
+        {
+            if (blocks[i].gameObject.activeSelf == true && board.CheckPlace(polyominoIndexes[i]) == true)
+            {
+                lose = false; break;
+            }    
+        }
+        if (lose == true)
+        {
+            Debug.Log("lose");
         }    
     }
 }

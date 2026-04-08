@@ -156,6 +156,7 @@ public class Board : MonoBehaviour
         fullLineColumns.Clear();
         for(var c = fromColumn; c < topColumnExclusive; ++c)
         {
+            if (c < 0 || c >= Size) continue;
             var isFullLine = true;
             for (var r = 0; r < Size; ++r)
             {
@@ -176,6 +177,7 @@ public class Board : MonoBehaviour
         fullLineRows.Clear();
         for(var r = fromRow; r < topRowExclusive; ++r)
         {
+            if (r < 0 || r >= Size) continue;
             var isFullLine = true;
             for (var c = 0; c < Size; ++c)
             {
@@ -232,6 +234,7 @@ public class Board : MonoBehaviour
         fullLineColumns.Clear();
         for (var c = fromColumn; c < topColumnExclusive; ++c)
         {
+            if (c < 0 || c >= Size) continue;
             var isFullLine = true;
             for (var r = 0; r < Size; ++r)
             {
@@ -252,6 +255,8 @@ public class Board : MonoBehaviour
         fullLineRows.Clear();
         for (var r = fromColumn; r < topColumnExclusive; ++r)
         {
+            if (r < 0 || r >= Size) continue;
+
             var isFullLine = true;
             for (var c = 0; c < Size; ++c)
             {
@@ -326,7 +331,37 @@ public class Board : MonoBehaviour
 
     public bool CheckPlace(int polyominoIndex)
     {
-        //var polyomino = Polyominos.Get
+        var polyomino = Polyominos.get(polyominoIndex);
+        var polyominoRows = polyomino.GetLength(0);
+        var polyominoColumns = polyomino.GetLength(1);
+
+        for (var r = 0; r < Size - polyominoRows; ++r)
+        {
+            for(var c = 0; c < Size - polyominoColumns; ++c)
+            {
+                if(CheckPlace(c,r,polyominoColumns,polyominoRows,polyomino)==true)
+                {
+                    return true;
+                }    
+            }    
+        }
+        return false;
+    }    
+
+    private bool CheckPlace(int column, int row, int polyominoColumns, int polyominoRows, int[,] polyomino  )
+    {
+        for(var r = 0; r < polyominoRows; ++r)
+        {
+            for (var c = 0; c < polyominoColumns; ++c)
+            {
+
+                if (polyomino[r, c] > 0 && data[row + r, column + c] == 2)
+                {
+                    return false;
+                }
+            }
+        }  
+        return true;
     }    
     public  List<int> HightlightPolyominoColumns => hightlightPolyominoColumns;
     public List<int> HightlightPolyominoRows => hightlightPolyominoRows;

@@ -72,7 +72,7 @@ public class Block : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        Debug.Log("OnMouseDown");
+        //Debug.Log("OnMouseDown");
         inputPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         transform.localPosition = position + inputOffset;
         transform.localScale = Vector3.one;
@@ -93,7 +93,7 @@ public class Block : MonoBehaviour
         if (currentMousePosition != previousMousePosition)
         {
             previousMousePosition = currentMousePosition;
-            Debug.Log("OnMouseDrag");
+            //Debug.Log("OnMouseDrag");
             var inputDelta = (Vector2)mainCamera.ScreenToWorldPoint(Input.mousePosition) -  inputPoint;
             transform.localPosition = position + inputOffset + (Vector3)inputDelta*1f;
             currentDragPoint = Vector2Int.RoundToInt((Vector2)transform.position - center);
