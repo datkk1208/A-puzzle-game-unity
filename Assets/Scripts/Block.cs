@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
@@ -79,7 +80,8 @@ public class Block : MonoBehaviour
         currentDragPoint = Vector2Int.RoundToInt((Vector2)transform.position - center);
         board.Hover(currentDragPoint, polyominoIndex);
 
-     
+        Hightlight(board.HightlightPolyominoColumns, board.HightlightPolyominoRows);
+
         previousDragPoint = currentDragPoint;
 
 
@@ -99,8 +101,10 @@ public class Block : MonoBehaviour
             {
                 previousDragPoint = currentDragPoint;
                 //goi board de cap nhat
-                Debug.Log($"Drag point {currentDragPoint}");
+               
                 board.Hover(currentDragPoint, polyominoIndex);
+
+                Hightlight(board.HightlightPolyominoColumns, board.HightlightPolyominoRows);
             }
         }
     }
@@ -118,5 +122,57 @@ public class Block : MonoBehaviour
         transform.localScale = scale;
         
       
+    }
+    private void Hightlight(List<int> columns, List<int>rows)
+    {
+        var polyomino = Polyominos.get(polyominoIndex);
+        var polyominoRows =  polyomino.GetLength(0);
+        var polyominoColumns =  polyomino.GetLength(1);
+
+        Unhightlight(polyominoColumns, polyominoRows, polyomino);
+
+        HightlightColumns(polyominoRows, polyomino, columns);
+
+
+        HightlightRows(polyominoColumns, polyomino, rows);
+    }
+
+    private void Unhightlight(int polyominoColumns, int polyominoRows, int[,] polyomino)
+    {
+        for (var r = 0; r < polyominoRows; r++)
+        {
+            for (var c = 0; c < polyominoColumns; c++)
+            {
+                if (polyomino[r, c] > 0)
+                {
+                    cells[r, c].Normal();
+                }
+            }
+        }
+    }
+    private void HightlightColumns(int polyominoRows, int[,] polyomino, List<int> columns)
+    {
+        foreach (var c in columns)
+        {
+            for (var r = 0; r < polyominoRows; ++r)
+            {
+                if (polyomino[r, c] > 0)
+                {
+                    cells[r, c].Hightlight();
+                }
+            }
+        }
+    } private void HightlightRows(int polyominoColumns, int[,] polyomino, List<int> rows)
+    {
+        foreach (var r in rows)
+        {
+            for (var c = 0; c < polyominoColumns; ++c)
+            {
+                if (polyomino[r, c] > 0)
+                {
+                    cells[r, c].Hightlight();
+                }
+            }
+        }
     }
 }

@@ -10,6 +10,8 @@ public class Board : MonoBehaviour
     private readonly int[,] data = new int[Size, Size]; // 0 la empty, 1 la hover, 3 la normal
 
     private readonly List<Vector2Int> hoverPoints = new();
+    private readonly List<int> hightlightPolyominoColumns = new();
+    private readonly List<int> hightlightPolyominoRows = new();
 
     private readonly List<int> fullLineColumns = new();
 
@@ -38,13 +40,30 @@ public class Board : MonoBehaviour
         var polyominoColumns = polyomino.GetLength(1);
 
         Unhover();
+
         Unhightlight();
+
+        hightlightPolyominoColumns.Clear();
+
+        hightlightPolyominoRows.Clear();
         HoverPoints(point, polyominoRows, polyominoColumns, polyomino);
 
-        if (hoverPoints.Count > 0) // Sửa: count thành Count
+
+        if (hoverPoints.Count > 0)
         {
             Hover();
-            Hightlight(point,polyominoColumns,polyominoRows);
+            Hightlight(point, polyominoColumns, polyominoRows);
+
+            foreach (var fullLineColumn in fullLineColumns)
+            {
+                hightlightPolyominoColumns.Add(fullLineColumn - point.x);
+            }
+
+            // LƯU Ý: Sửa fullLineColumns thành fullLineRows ở vòng lặp này
+            foreach (var fullLineRow in fullLineRows)
+            {
+                hightlightPolyominoRows.Add(fullLineRow - point.y);
+            }
         }
     }
     private void HoverPoints(Vector2Int point, int polyominoRows, int polyomioColumns, int[,] polyomino)
@@ -127,7 +146,7 @@ public class Board : MonoBehaviour
 
     {
         FullLineColumns(point.x, point.x + polyominoColumns);
-        FullLineRows(point.y, point.y + polyominoColumns);
+        FullLineRows(point.y, point.y + polyominoRows);
 
         ClearFullLineColumns();
         ClearFullLineRows();
@@ -304,6 +323,13 @@ public class Board : MonoBehaviour
             }
         }
     }
+
+    public bool CheckPlace(int polyominoIndex)
+    {
+        //var polyomino = Polyominos.Get
+    }    
+    public  List<int> HightlightPolyominoColumns => hightlightPolyominoColumns;
+    public List<int> HightlightPolyominoRows => hightlightPolyominoRows;
 
 
 }
