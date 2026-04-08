@@ -244,7 +244,7 @@ public class Board : MonoBehaviour
             }
             if (isFullLine == true)
             {
-                fullLineColumns.Add(r);
+                fullLineRows.Add(r);
             }
         }
     }
