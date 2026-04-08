@@ -230,11 +230,11 @@ public class Board : MonoBehaviour
     }
     private void PredictFullLineRows(int fromColumn, int topColumnExclusive)
     {
-        fullLineColumns.Clear();
-        for (var c = fromColumn; c < topColumnExclusive; ++c)
+        fullLineRows.Clear();
+        for (var r = fromColumn; r < topColumnExclusive; ++r)
         {
             var isFullLine = true;
-            for (var r = 0; r < Size; ++r)
+            for (var c = 0; c < Size; ++c)
             {
                 if ((data[r, c] != 1 && data[r, c] != 2))
                 {
@@ -244,7 +244,7 @@ public class Board : MonoBehaviour
             }
             if (isFullLine == true)
             {
-                fullLineColumns.Add(c);
+                fullLineColumns.Add(r);
             }
         }
     }
