@@ -22,7 +22,7 @@ public class Blocks : MonoBehaviour
         for (var i = 0; i < blocks.Length; ++i)
         {
             blocks[i].gameObject.SetActive(true);
-            blocks[i].Show(0);
+            blocks[i].Show(Random.Range(0, Polyominos.length));
 
             ++blockCount;
         }
