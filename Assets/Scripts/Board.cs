@@ -335,18 +335,19 @@ public class Board : MonoBehaviour
         var polyominoRows = polyomino.GetLength(0);
         var polyominoColumns = polyomino.GetLength(1);
 
+        // Phải quét rộng hơn (chạy từ số âm) để trừ hao các khoảng trống (số 0) trong ma trận 3x3
         for (var r = 0; r < Size - polyominoRows; ++r)
         {
-            for(var c = 0; c < Size - polyominoColumns; ++c)
+            for (var c = 0; c < Size - polyominoColumns; ++c)
             {
-                if(CheckPlace(c,r,polyominoColumns,polyominoRows,polyomino)==true)
+                if (CheckPlace(c, r, polyominoColumns, polyominoRows, polyomino) == true)
                 {
-                    return true;
-                }    
-            }    
+                    return true; // Tìm thấy vị trí có thể đặt
+                }
+            }
         }
-        return false;
-    }    
+        return false; // Quét toàn bộ bàn cờ không có chỗ nào đặt được
+    }
 
     private bool CheckPlace(int column, int row, int polyominoColumns, int polyominoRows, int[,] polyomino  )
     {
