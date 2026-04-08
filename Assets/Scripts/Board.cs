@@ -38,11 +38,13 @@ public class Board : MonoBehaviour
         var polyominoColumns = polyomino.GetLength(1);
 
         Unhover();
+        Unhightlight();
         HoverPoints(point, polyominoRows, polyominoColumns, polyomino);
 
         if (hoverPoints.Count > 0) // Sửa: count thành Count
         {
             Hover();
+            Hightlight(point,polyominoColumns,polyominoRows);
         }
     }
     private void HoverPoints(Vector2Int point, int polyominoRows, int polyomioColumns, int[,] polyomino)
@@ -195,10 +197,113 @@ public class Board : MonoBehaviour
 
     private void Hightlight(Vector2Int point, int polyminoColumns, int polymominoRows)
     {
-       
+        PredictFullLineColumns(point.x, point.x + polyminoColumns);
+        PredictFullLineRows(point.y, point.y + polymominoRows);
+
+        HightlightFullLineColumns();
+        HightlightFullLineRows();
     }
     private void Unhightlight()
     {
-        
-    }    
+        UnhightlightFullLineColumns();
+        UnhightlightFullLineRows();
+    }
+    private void PredictFullLineColumns(int fromColumn, int topColumnExclusive)
+    {
+        fullLineColumns.Clear();
+        for (var c = fromColumn; c < topColumnExclusive; ++c)
+        {
+            var isFullLine = true;
+            for (var r = 0; r < Size; ++r)
+            {
+                if (data[r, c] != 1 && data[r, c] != 2)
+                {
+                    isFullLine = false;
+                    break;
+                }
+            }
+            if (isFullLine == true)
+            {
+                fullLineColumns.Add(c);
+            }
+        }
+    }
+    private void PredictFullLineRows(int fromColumn, int topColumnExclusive)
+    {
+        fullLineColumns.Clear();
+        for (var c = fromColumn; c < topColumnExclusive; ++c)
+        {
+            var isFullLine = true;
+            for (var r = 0; r < Size; ++r)
+            {
+                if ((data[r, c] != 1 && data[r, c] != 2))
+                {
+                    isFullLine = false;
+                    break;
+                }
+            }
+            if (isFullLine == true)
+            {
+                fullLineColumns.Add(c);
+            }
+        }
+    }
+    private void HightlightFullLineColumns()
+    {
+        foreach (var c in fullLineColumns)
+        {
+            for (var r = 0; r < Size; ++r)
+            {
+                if (data[r, c] == 2)
+                {
+
+                    cells[r, c].Hightlight();
+                }
+            }
+        }
+    }
+    private void HightlightFullLineRows()
+    {
+        foreach (var r in fullLineRows)
+        {
+            for (var c = 0; c < Size; ++c)
+            {
+                if (data[r, c] == 2)
+                {
+
+                    cells[r, c].Hightlight();
+                }
+            }
+        }
+    }
+    private void UnhightlightFullLineColumns()
+    {
+        foreach (var c in fullLineColumns)
+        {
+            for (var r = 0; r < Size; ++r)
+            {
+                if (data[r, c] == 2)
+                {
+
+                    cells[r, c].Normal();
+                }
+            }
+        }
+    }
+    private void UnhightlightFullLineRows()
+    {
+        foreach (var r in fullLineRows)
+        {
+            for (var c = 0; c < Size; ++c)
+            {
+                if (data[r, c] == 2)
+                {
+
+                    cells[r, c].Normal();
+                }
+            }
+        }
+    }
+
+
 }
