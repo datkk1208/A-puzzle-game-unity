@@ -11,9 +11,9 @@ namespace Game
         [SerializeField] private RectTransform scoreRectTransform;
         
         private Camera mainCamera;
-        private Rect viewFrameRect;
-        public Rect viewRect = new Rect(0, 0, 10, 10); // LƯU Ý: Phải gán giá trị cho viewRect, ví dụ 10x10
-        public Vector2Int boardSize = new Vector2Int(8, 8); // LƯU Ý: Phải có giá trị
+        private Rect viewFrameRect = new Rect(0f, 0f, 1f, 1f); // KHỞI TẠO MẶC ĐỊNH
+        public Rect viewRect = new Rect(0, 0, 10, 10);
+        public Vector2Int boardSize = new Vector2Int(8, 8);
         
         private void Awake()
         {
@@ -40,7 +40,9 @@ namespace Game
         
         private void Apply()
         {
-            if(mainCamera == null) return;
+            if (mainCamera == null) return;
+            // Chặn lỗi chia cho 0 lúc vừa load view
+            if (viewFrameRect.width <= 0 || viewFrameRect.height <= 0 || viewRect.width <= 0 || viewRect.height <= 0) return;
             
             var center = viewFrameRect.center;
             var size = viewRect.size / viewFrameRect.size;
@@ -49,31 +51,46 @@ namespace Game
 
             mainCamera.orthographicSize = orthographicSize;
             
-            // Đã gộp trục Y và thêm đủ 3 tham số cho Vector3
+            // Canh lại màn hình và camera transform
             transform.position = new Vector3(viewRect.center.x, viewRect.center.y - (center.y - 0.5f) * height, transform.position.z);
 
-            // Đã sửa lại tham số Vector3 và khai báo scaleFactor
-            var scaleFactor = Mathf.Max(height * mainCamera.aspect / 1080.0f, height / 1920.0f) * 100.0f;
-            backgroundTransform.position = new Vector3(height * mainCamera.aspect / 1080.0f, height / 1920.0f, 0f) * 100.0f;
-            backgroundTransform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-
-            // Đã thêm dấu đóng ngoặc
-            var screenPoint = mainCamera.WorldToScreenPoint(new Vector3(boardSize.x * 0.5f, boardSize.y + 0.25f, 0.0f));
-            
-            // Sửa lại logic if để không bị thừa &&
-            if (
-                !float.IsNaN(screenPoint.x) &&
-                !float.IsNaN(screenPoint.y) &&
-                !float.IsNaN(screenPoint.z) &&
-                !float.IsInfinity(screenPoint.x) &&
-                !float.IsInfinity(screenPoint.y) &&
-                !float.IsInfinity(screenPoint.z)
-            )
+            // Tự động kéo dãn ảnh cover toàn bộ Background của Camera
+            if (backgroundTransform != null)
             {
-                // Gọi chuẩn hàm RectTransformUtility và tạo biến out localPoint
-                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(scoreRectTransform.parent.GetComponent<RectTransform>(), screenPoint, mainCamera, out Vector2 localPoint))
+                backgroundTransform.position = new Vector3(transform.position.x, transform.position.y, backgroundTransform.position.z);
+                var spriteRenderer = backgroundTransform.GetComponent<SpriteRenderer>();
+                
+                if (spriteRenderer != null && spriteRenderer.sprite != null)
                 {
-                    scoreRectTransform.localPosition = localPoint;
+                    var nativeSize = spriteRenderer.sprite.bounds.size;
+                    
+                    float scaleX = (height * mainCamera.aspect) / nativeSize.x;
+                    float scaleY = height / nativeSize.y;
+                    
+                    // Lấy scale lớn nhất ở 1 trong 2 cạnh để Fill màn hình, không bị viền đen
+                    float scaleFactor = Mathf.Max(scaleX, scaleY);
+                    backgroundTransform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+                }
+            }
+
+            // Đồng bộ Score UI với GameObject bằng RectTransformUtility
+            if (scoreRectTransform != null && scoreRectTransform.parent != null)
+            {
+                var screenPoint = mainCamera.WorldToScreenPoint(new Vector3(boardSize.x * 0.5f, boardSize.y + 0.25f, 0.0f));
+                
+                if (
+                    !float.IsNaN(screenPoint.x) && !float.IsNaN(screenPoint.y) && !float.IsNaN(screenPoint.z) &&
+                    !float.IsInfinity(screenPoint.x) && !float.IsInfinity(screenPoint.y) && !float.IsInfinity(screenPoint.z)
+                )
+                {
+                    if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        scoreRectTransform.parent.GetComponent<RectTransform>(), 
+                        screenPoint, 
+                        null, // Truyền null do Canvas RenderMode mặc định là ScreenSpaceOverlay
+                        out Vector2 localPoint))
+                    {
+                        scoreRectTransform.localPosition = new Vector3(localPoint.x, localPoint.y, 0f);
+                    }
                 }
             }
         }

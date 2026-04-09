@@ -59,12 +59,10 @@ namespace Game
            var blockCellWith = (float)Size / (Block.Size * 3 + 3 + 1); // Đổi Size thành size
             
             // Tính giá trị offset và truyền đủ 2 trục x, y cho Vector2
-            var offsetValue = 0.25f + 0.5f + 0.25f + blockCellWith * 8;
-            var offSet = new Vector2(offsetValue, offsetValue); 
-            
+            var offset = new Vector2(0.25f + 0.5f, 0.25f + blockCellWith*8);
             var gameCamera = Camera.main.GetComponent<GameCamera>();
             // Sửa tên hàm thành ViewFrame và chỉ truyền 1 tham số Rect
-            gameCamera.View(new Rect(-offSet.x, -offSet.y, Size + offSet.x * 2, Size + offSet.y * 0.25f),new(Size,Size));
+            gameCamera.View(new Rect(-offset.x, -offset.y, Size + offset.x * 2.0f, Size + offset.y  + 0.25f),new(Size,Size));
 
         }
 
