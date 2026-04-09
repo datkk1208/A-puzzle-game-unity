@@ -1,7 +1,6 @@
-﻿using TMPro;
+using TMPro;
 using System;
-using System.Collections.Generic; // Thêm dòng này
-using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
@@ -17,9 +16,10 @@ namespace Game
         
         [Space(8.0f)]
 
-        [SerializeField]private TMP_Text scoreText;  
+        [SerializeField] private TMP_Text scoreText;
+        [SerializeField] private TMP_Text bestScoreText;
 
-        [SerializeField]private TMP_Text bestScoreText;  
+        [SerializeField] private SpriteRenderer backgroundRenderer;
 
         private readonly Cell[,] cells = new Cell[Size, Size];
         private readonly int[,] data = new int[Size, Size]; // 0 la empty, 1 la hover, 3 la normal
@@ -51,9 +51,21 @@ namespace Game
                 }
             }
             score = 0;
-            bestScore = PlayerPrefs.GetInt(BestScoreKey,0);
-            scoreText.text = score.ToString();
-            bestScoreText.text =  bestScore.ToString();
+            bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
+            scoreText.text    = score.ToString();
+            bestScoreText.text = bestScore.ToString();
+
+
+           var blockCellWith = (float)Size / (Block.Size * 3 + 3 + 1); // Đổi Size thành size
+            
+            // Tính giá trị offset và truyền đủ 2 trục x, y cho Vector2
+            var offsetValue = 0.25f + 0.5f + 0.25f + blockCellWith * 8;
+            var offSet = new Vector2(offsetValue, offsetValue); 
+            
+            var gameCamera = Camera.main.GetComponent<GameCamera>();
+            // Sửa tên hàm thành ViewFrame và chỉ truyền 1 tham số Rect
+            gameCamera.View(new Rect(-offSet.x, -offSet.y, Size + offSet.x * 2, Size + offSet.y * 0.25f),new(Size,Size));
+
         }
 
 
@@ -396,18 +408,16 @@ namespace Game
             var polyominoRows = polyomino.GetLength(0);
             var polyominoColumns = polyomino.GetLength(1);
 
-            // Phải quét rộng hơn (chạy từ số âm) để trừ hao các khoảng trống (số 0) trong ma trận 3x3
-            for (var r = 0; r < Size - polyominoRows; ++r)
+            // Dùng <= để không bỏ sót hàng/cột cuối cùng cúa board
+            for (var r = 0; r <= Size - polyominoRows; ++r)
             {
-                for (var c = 0; c < Size - polyominoColumns; ++c)
+                for (var c = 0; c <= Size - polyominoColumns; ++c)
                 {
-                    if (CheckPlace(c, r, polyominoColumns, polyominoRows, polyomino) == true)
-                    {
-                        return true; // Tìm thấy vị trí có thể đặt
-                    }
+                    if (CheckPlace(c, r, polyominoColumns, polyominoRows, polyomino))
+                        return true;
                 }
             }
-            return false; // Quét toàn bộ bàn cờ không có chỗ nào đặt được
+            return false;
         }
 
         private bool CheckPlace(int column, int row, int polyominoColumns, int polyominoRows, int[,] polyomino)
@@ -429,13 +439,14 @@ namespace Game
         public void AddScore(int amount)
         {
             score += amount;
-            if(score > bestScore)
+            if (score > bestScore)
             {
                 bestScore = score;
-                PlayerPrefs.SetInt(BestScoreKey,bestScore);
+                PlayerPrefs.SetInt(BestScoreKey, bestScore);
+                PlayerPrefs.Save(); // Đảm bảo lưu ngay, tránh mất dữ liệu khi force-quit
             }
-             scoreText.text = score.ToString();
-            bestScoreText.text =  bestScore.ToString();
+            scoreText.text     = score.ToString();
+            bestScoreText.text = bestScore.ToString();
         }
 
         public List<int> HightlightPolyominoColumns => hightlightPolyominoColumns;
@@ -443,5 +454,5 @@ namespace Game
 
 
     }
-    
+  
 }

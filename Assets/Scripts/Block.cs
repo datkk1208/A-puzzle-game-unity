@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -9,14 +8,14 @@ namespace Game
 
     public class Block : MonoBehaviour
     {
-        public const int size = 5;
+        public const int Size = 5;
         private readonly Vector3 inputOffset = new(0.0f, 2.0f, 0.0f);
         [SerializeField] private Cell cellPrefab;
         [SerializeField] private Board board;
         [SerializeField] private Blocks blocks;
         private SortingGroup sortingGroup;
         private int polyominoIndex;
-        private readonly Cell[,] cells = new Cell[size, size];
+        private readonly Cell[,] cells = new Cell[Size, Size];
 
         private Vector3 position;
         private Vector3 scale;
@@ -34,15 +33,15 @@ namespace Game
         }
         public void Initialize()
         {
-            for (var r = 0; r < size; ++r)
+            for (var r = 0; r < Size; ++r)
             {
-                for (var c = 0; c < size; ++c)
+                for (var c = 0; c < Size; ++c)
                 {
                     cells[r, c] = Instantiate(cellPrefab, transform);
                 }
             }
             position = transform.localPosition;
-            scale = transform.localScale;
+            scale    = transform.localScale;
         }
         public void Show(int polyominoIndex)
         {
@@ -68,9 +67,9 @@ namespace Game
         }
         private void Hide()
         {
-            for (var r = 0; r < size; ++r)
+            for (var r = 0; r < Size; ++r)
             {
-                for (var c = 0; c < size; ++c)
+                for (var c = 0; c < Size; ++c)
                 {
                     cells[r, c].Hide();
                 }
