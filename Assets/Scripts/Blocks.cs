@@ -1,6 +1,8 @@
 using System.CodeDom.Compiler;
 using UnityEditor.Build;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 namespace Game
 {
 
@@ -8,6 +10,9 @@ namespace Game
     {
         [SerializeField] private Board board;
         [SerializeField] private Block[] blocks;
+
+        [Space(8.0f)]
+        [SerializeField] private GameObject lostGameObject;
 
         private int[] polyominoIndexes;
         private int blockCount = 0;
@@ -58,7 +63,7 @@ namespace Game
             }
             if (lose == true)
             {
-                Debug.Log("lose");
+               Lose();
             }
         }
         public void ResetBlockSortingOrders()
@@ -67,6 +72,17 @@ namespace Game
             {
                 blocks[i].SetSortingOrder(0);
             }
+        }
+        private void Lose()
+        {
+            lostGameObject.SetActive(true);
+            StartCoroutine(DelayAnyLoseCoroutine());
+        }
+        private IEnumerator DelayAnyLoseCoroutine()
+        {
+            yield return new  WaitForSeconds(3.0f);
+            SceneManager.LoadScene("Gameplay");
+            
         }
     }
 
