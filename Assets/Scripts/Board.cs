@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic; // Thêm dòng này
+﻿using System;
+using System.Collections.Generic; // Thêm dòng này
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -16,6 +17,10 @@ public class Board : MonoBehaviour
     private readonly List<int> fullLineColumns = new();
 
     private readonly List<int> fullLineRows = new();
+
+    private Vector2Int previousHoverPoint;
+    
+    private List<Vector2Int> previousHoverPoints = new();
     private void Start()
     {
         for (var r = 0; r < Size; ++r)
@@ -49,21 +54,31 @@ public class Board : MonoBehaviour
         HoverPoints(point, polyominoRows, polyominoColumns, polyomino);
 
 
+
         if (hoverPoints.Count > 0)
         {
+
+            previousHoverPoint = point;
+            previousHoverPoints.Clear();
+            previousHoverPoints.AddRange(hoverPoints);
+
             Hover();
             Hightlight(point, polyominoColumns, polyominoRows);
 
-            foreach (var fullLineColumn in fullLineColumns)
-            {
-                hightlightPolyominoColumns.Add(fullLineColumn - point.x);
-            }
+           
+        }
+        else if(previousHoverPoints.Count > 0 && Mathf.Abs(point.x - previousHoverPoint.x) < 2 && Mathf.Abs(point.y - previousHoverPoint.y) < 2 )
+        {
+        point = previousHoverPoint;
+            hoverPoints.Clear();
+            hoverPoints.AddRange(previousHoverPoints);
 
-            // LƯU Ý: Sửa fullLineColumns thành fullLineRows ở vòng lặp này
-            foreach (var fullLineRow in fullLineRows)
-            {
-                hightlightPolyominoRows.Add(fullLineRow - point.y);
-            }
+            Hover();
+            Hightlight(point, polyominoColumns, polyominoRows);
+        }
+        else
+        {
+            previousHoverPoints.Clear();
         }
     }
     private void HoverPoints(Vector2Int point, int polyominoRows, int polyomioColumns, int[,] polyomino)
@@ -223,6 +238,16 @@ public class Board : MonoBehaviour
 
         HightlightFullLineColumns();
         HightlightFullLineRows();
+        foreach (var fullLineColumn in fullLineColumns)
+        {
+            hightlightPolyominoColumns.Add(fullLineColumn - point.x);
+        }
+
+        // LƯU Ý: Sửa fullLineColumns thành fullLineRows ở vòng lặp này
+        foreach (var fullLineRow in fullLineRows)
+        {
+            hightlightPolyominoRows.Add(fullLineRow - point.y);
+        }
     }
     private void Unhightlight()
     {

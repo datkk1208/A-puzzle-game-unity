@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3253903945997173982}
+  - component: {fileID: 4005260846627837249}
   - component: {fileID: 7035471657419015443}
   - component: {fileID: -1016903530159419375}
   m_Layer: 0
@@ -33,6 +34,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &4005260846627837249
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2692267899279432311}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!114 &7035471657419015443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,6 +59,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 1120832263855392783, guid: 1f419195641a46f48a37b5dd87ed6d68, type: 3}
+  board: {fileID: 0}
+  blocks: {fileID: 0}
 --- !u!61 &-1016903530159419375
 BoxCollider2D:
   m_ObjectHideFlags: 0
