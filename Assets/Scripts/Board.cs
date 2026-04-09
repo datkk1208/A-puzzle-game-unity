@@ -1,4 +1,5 @@
-﻿using System;
+﻿using TMPro;
+using System;
 using System.Collections.Generic; // Thêm dòng này
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -10,6 +11,13 @@ namespace Game
         public const int Size = 8;
         [SerializeField] private Cell cellPrefabs;
         [SerializeField] private Transform cellTransform;
+        
+        [Space(8.0f)]
+
+        [SerializeField]private TMP_Text scoreText;  
+
+        [SerializeField]private TMP_Text bestScoreText;  
+
         private readonly Cell[,] cells = new Cell[Size, Size];
         private readonly int[,] data = new int[Size, Size]; // 0 la empty, 1 la hover, 3 la normal
 
@@ -24,6 +32,10 @@ namespace Game
         private Vector2Int previousHoverPoint;
 
         private List<Vector2Int> previousHoverPoints = new();
+
+        private int score;
+
+        private int bestScore;
         private void Start()
         {
             for (var r = 0; r < Size; ++r)
@@ -35,6 +47,10 @@ namespace Game
                     cells[r, c].Hide();
                 }
             }
+            score = 0;
+            bestScore = PlayerPrefs.GetInt("BestScore",0);
+            scoreText.text = score.ToString();
+            bestScoreText.text =  bestScore.ToString();
         }
 
 
@@ -404,6 +420,19 @@ namespace Game
             }
             return true;
         }
+
+        public void AddScore(int amount)
+        {
+            score += amount;
+            if(score > bestScore)
+            {
+                bestScore = score;
+                PlayerPrefs.SetInt("best_score",bestScore);
+            }
+             scoreText.text = score.ToString();
+            bestScoreText.text =  bestScore.ToString();
+        }
+
         public List<int> HightlightPolyominoColumns => hightlightPolyominoColumns;
         public List<int> HightlightPolyominoRows => hightlightPolyominoRows;
 
