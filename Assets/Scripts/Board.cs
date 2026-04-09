@@ -9,6 +9,9 @@ namespace Game
     public class Board : MonoBehaviour
     {
         public const int Size = 8;
+
+        private const string BestScoreKey = "best_score";
+
         [SerializeField] private Cell cellPrefabs;
         [SerializeField] private Transform cellTransform;
         
@@ -48,7 +51,7 @@ namespace Game
                 }
             }
             score = 0;
-            bestScore = PlayerPrefs.GetInt("BestScore",0);
+            bestScore = PlayerPrefs.GetInt(BestScoreKey,0);
             scoreText.text = score.ToString();
             bestScoreText.text =  bestScore.ToString();
         }
@@ -193,6 +196,8 @@ namespace Game
         {
             FullLineColumns(point.x, point.x + polyominoColumns);
             FullLineRows(point.y, point.y + polyominoRows);
+
+            AddScore(fullLineColumns.Count*Size + fullLineRows.Count*Size);
 
             ClearFullLineColumns();
             ClearFullLineRows();
@@ -427,7 +432,7 @@ namespace Game
             if(score > bestScore)
             {
                 bestScore = score;
-                PlayerPrefs.SetInt("best_score",bestScore);
+                PlayerPrefs.SetInt(BestScoreKey,bestScore);
             }
              scoreText.text = score.ToString();
             bestScoreText.text =  bestScore.ToString();
