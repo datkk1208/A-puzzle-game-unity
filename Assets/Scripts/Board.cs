@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic; // Thêm dòng này
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -134,15 +135,27 @@ public class Board : MonoBehaviour
         var polyominoColumns = polyomino.GetLength(1);
 
         Unhover();
-        Unhightlight();
+      
         HoverPoints(point, polyominoRows, polyominoColumns, polyomino);
 
         if (hoverPoints.Count > 0) // Sửa: count thành Count
         {
             Place(point, polyominoColumns, polyominoRows);
-            Hightlight(point, polyominoRows, polyominoColumns);
+          previousHoverPoints.Clear();
             return true;
         }
+        else if (previousHoverPoints.Count > 0 && Mathf.Abs(point.x - previousHoverPoint.x) < 2 && Mathf.Abs(point.y - previousHoverPoint.y) < 2)
+        {
+            point = previousHoverPoint;
+            hoverPoints.Clear();
+            hoverPoints.AddRange(previousHoverPoints);
+
+            Place(point, polyominoColumns, polyominoRows);
+            previousHoverPoints.Clear();
+            return true;
+        }
+        previousHoverPoints.Clear();
+
         return false;
     }
     private void Place(Vector2Int point, int polyominoColumns, int polyominoRows)
