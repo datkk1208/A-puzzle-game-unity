@@ -119,6 +119,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &141007257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 141007259}
+  - component: {fileID: 141007258}
+  m_Layer: 0
+  m_Name: '@Controller'
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &141007258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141007257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c241bbfd9db87074e87ce4be0bd586f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &141007259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141007257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &211099064
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,8 +651,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4288206324
+  m_fontColor: {r: 0.95686275, g: 0.8352941, b: 0.59607846, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1065,7 +1109,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 828024909}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 141007258}
+        m_TargetAssemblyTypeName: Game.GameController, Game
+        m_MethodName: OnRePlayClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &828024909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1731,6 +1787,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefabs: {fileID: 1120832263855392783, guid: 1f419195641a46f48a37b5dd87ed6d68, type: 3}
   cellTransform: {fileID: 328570312}
+  scoreText: {fileID: 562898137}
+  bestScoreText: {fileID: 2098331829}
 --- !u!1 &1727854500
 GameObject:
   m_ObjectHideFlags: 0
@@ -2011,8 +2069,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4288206324
+  m_fontColor: {r: 0.95686275, g: 0.8352941, b: 0.59607846, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2161,3 +2219,4 @@ SceneRoots:
   - {fileID: 777922405}
   - {fileID: 981528630}
   - {fileID: 1226628942}
+  - {fileID: 141007259}
