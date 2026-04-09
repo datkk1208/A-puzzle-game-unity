@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 public class Block : MonoBehaviour
@@ -10,6 +11,7 @@ public class Block : MonoBehaviour
     [SerializeField] private Cell cellPrefab;
     [SerializeField] private Board board;
     [SerializeField] private Blocks blocks;
+    private SortingGroup sortingGroup;
     private int polyominoIndex;
     private readonly Cell[,] cells = new Cell[size, size];
 
@@ -25,6 +27,7 @@ public class Block : MonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
+        sortingGroup = gameObject.GetComponent<SortingGroup>();
     }
     public void Initialize()
     {
@@ -76,6 +79,9 @@ public class Block : MonoBehaviour
         inputPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         transform.localPosition = position + inputOffset;
         transform.localScale = Vector3.one;
+
+        blocks.ResetBlockSortingOrders();
+        SetSortingOrder(1);
 
         currentDragPoint = Vector2Int.RoundToInt((Vector2)transform.position - center);
         board.Hover(currentDragPoint, polyominoIndex);
@@ -162,7 +168,8 @@ public class Block : MonoBehaviour
                 }
             }
         }
-    } private void HightlightRows(int polyominoColumns, int[,] polyomino, List<int> rows)
+    }
+    private void HightlightRows(int polyominoColumns, int[,] polyomino, List<int> rows)
     {
         foreach (var r in rows)
         {
@@ -175,4 +182,8 @@ public class Block : MonoBehaviour
             }
         }
     }
+    public void  SetSortingOrder(int sortingOrder)
+    {
+        sortingGroup.sortingOrder = sortingOrder;
+    }    
 }

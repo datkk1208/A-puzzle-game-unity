@@ -58,4 +58,11 @@ public class Blocks : MonoBehaviour
             Debug.Log("lose");
         }    
     }
+    public void ResetBlockSortingOrders()
+    {
+        for (var i = 0; i < blocks.Length; ++i)
+        {
+            blocks[i].SetSortingOrder(0);
+        }    
+    }    
 }
